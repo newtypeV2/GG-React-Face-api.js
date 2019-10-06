@@ -23,12 +23,12 @@ export class LiveCamera extends Component {
         document.getElementById('videoContainer').append(canvas)
         faceapi.matchDimensions(canvas,displaySize)
 
-        const box = { x: 50, y: 50, width: 100, height: 100 }
+        // const box = { x: 50, y: 50, width: 100, height: 100 }
         // see DrawBoxOptions below
-        const drawOptions = {
-        label: 'Hello I am a box!',
-        lineWidth: 2
-        }
+        // const drawOptions = {
+        // label: 'Hello I am a box!',
+        // lineWidth: 2
+        // }
 
         
         // const canvas = faceapi.createCanvasFromMedia(hideo)
@@ -41,11 +41,11 @@ export class LiveCamera extends Component {
             .withAgeAndGender()
             .withFaceDescriptors()
             // console.log(detections)
+
             detections.map((face,index) => console.log('Face #',index,'Guessed age:',face.age))
             const resizedDetections = faceapi.resizeResults(detections,displaySize)
             canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height)
             faceapi.draw.drawDetections(canvas,resizedDetections)
-            faceapi.draw.drawDetections(canvas,resizedDetections);
             faceapi.draw.drawFaceExpressions(canvas,resizedDetections)
             faceapi.draw.drawFaceLandmarks(canvas,resizedDetections)
         }, 100 )
