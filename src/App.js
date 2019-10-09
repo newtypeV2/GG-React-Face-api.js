@@ -1,15 +1,12 @@
 import React from 'react';
-// import logo from './logo.svg';
-// import LiveCamera from './components/liveCamera';
-import Test from './components/testCamera';
+import LiveCamera from './components/liveCamera';
 
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      {/* <LiveCamera /> */}
-      <Test />
+      <LiveCamera />
     </div>
   );
 }
