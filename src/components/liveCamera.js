@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Webcam from 'react-webcam';
 import * as faceapi from 'face-api.js';
+import { TinyFaceDetectorOptions } from 'face-api.js';
 
 
 
@@ -8,7 +9,8 @@ export class LiveCamera extends Component {
     constructor(props){
         super(props)
         this.state = {
-            loaded : false
+            loaded : false,
+
         }
     }
 
@@ -23,32 +25,52 @@ export class LiveCamera extends Component {
         document.getElementById('videoContainer').append(canvas)
         faceapi.matchDimensions(canvas,displaySize)
 
-        // const box = { x: 50, y: 50, width: 100, height: 100 }
-        // see DrawBoxOptions below
-        // const drawOptions = {
-        // label: 'Hello I am a box!',
-        // lineWidth: 2
-        // }
-
         
-        // const canvas = faceapi.createCanvasFromMedia(hideo)
+
         console.log(canvas)
         console.log(displaySize)
         setInterval(async () => {
-            const detections = await faceapi.detectAllFaces(hideo,new faceapi.TinyFaceDetectorOptions())
-            .withFaceLandmarks(true)
+            const detections = await faceapi.detectSingleFace(hideo, new TinyFaceDetectorOptions())
+            .withFaceLandmarks()
             .withFaceExpressions()
             .withAgeAndGender()
-            .withFaceDescriptors()
-            // console.log(detections)
+            // .withFaceDescriptors()
 
-            detections.map((face,index) => console.log('Face #',index,'Guessed age:',face.age))
-            const resizedDetections = faceapi.resizeResults(detections,displaySize)
-            canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height)
-            faceapi.draw.drawDetections(canvas,resizedDetections)
-            faceapi.draw.drawFaceExpressions(canvas,resizedDetections)
-            faceapi.draw.drawFaceLandmarks(canvas,resizedDetections)
-        }, 100 )
+            
+
+            // detections.map((face,index) => console.log('Face #',index,'Guessed age:',face.age))
+            if(detections){
+                const resizedDetections = faceapi.resizeResults(detections,displaySize)
+                console.log(resizedDetections)
+                const drawOptions = {
+                    label: `Age: ${Math.floor(detections.age)}`,
+                    boxColor: 'Red',
+                    lineWidth: 4,
+                    drawLabelOptions: {
+                        anchorPosition: 'BOTTOM_RIGHT',
+                        backgroundColor: 'rgba(0, 0, 0, 1)',
+                        fontColor: 'White',
+                    }
+                    }
+    
+                const box = { 
+                    x: resizedDetections.detection.box.x,
+                    y: resizedDetections.detection.box.y, 
+                    width: resizedDetections.detection.box.width, 
+                    height: resizedDetections.detection.box.height,
+                }
+    
+                const drawBox = new faceapi.draw.DrawBox(box, drawOptions)
+    
+                
+
+                canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height)
+                drawBox.draw(canvas,resizedDetections)
+                const minConfidence = 0.5
+                faceapi.draw.drawFaceExpressions(canvas,resizedDetections,minConfidence)
+                faceapi.draw.drawFaceLandmarks(canvas,resizedDetections)
+            }
+        }, 150 )
     }
 
     componentDidMount = () => {
