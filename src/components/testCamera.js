@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import Webcam from 'react-webcam';
+import Cam from 'react-webcam';
+
 
 export class testCamera extends Component {
     render() {
         return (
             <div>
-                <Webcam />
+                <Cam />
             </div>
         )
     }
