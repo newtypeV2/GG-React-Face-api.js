@@ -6,6 +6,7 @@
     "face-api.js": "^0.21.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "react-responsive": "^8.0.1",
     "react-scripts": "3.1.2",
     "react-webcam": "^3.1.1",
     "typescript": "^3.6.3"

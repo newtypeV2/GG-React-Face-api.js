@@ -15,7 +15,6 @@ export class LiveCamera extends Component {
     }
 
     mediaHandler = () => {
-        console.log(faceapi.nets)
         const hideo = document.getElementById('video');
         const displaySize = {
             width : hideo.width,
@@ -91,12 +90,12 @@ export class LiveCamera extends Component {
 
     render() {
         const videoConstraints = {
-            width : 720,
-            height : 560,
+            width : (window.screen.width) * .8,
+            height : (window.screen.width) / 1.5,
             facingMode : 'user'
         };
 
-        console.log(this.state)
+        console.log('WIN:',window.screen);
         return (
             <div id = 'videoContainer'>
                 {
@@ -104,8 +103,8 @@ export class LiveCamera extends Component {
                 <div>
                     <Webcam
                         id = 'video'
-                        width = {720}
-                        height = {560}
+                        width = {videoConstraints.width}
+                        height = {videoConstraints.height}
                         audio={false}
                         videoConstraints={videoConstraints}
                         onUserMedia={this.mediaHandler}
