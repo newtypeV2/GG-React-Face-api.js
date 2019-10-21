@@ -110,7 +110,6 @@ export class LiveCamera extends Component {
                         videoConstraints={videoConstraints}
                         onUserMedia={this.mediaHandler}
                     ></Webcam>
-
                 :
                 null
                 }
