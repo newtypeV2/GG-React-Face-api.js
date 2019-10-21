@@ -26,8 +26,8 @@ export class LiveCamera extends Component {
 
         
 
-        console.log(canvas)
-        console.log(displaySize)
+        // console.log(canvas)
+        // console.log(displaySize)
         setInterval(async () => {
             const detections = await faceapi.detectSingleFace(hideo, new TinyFaceDetectorOptions())
             .withFaceLandmarks()
@@ -100,7 +100,6 @@ export class LiveCamera extends Component {
             <div id = 'videoContainer'>
                 {
                 this.state.loaded ?
-                <div>
                     <Webcam
                         id = 'video'
                         width = {videoConstraints.width}
@@ -109,7 +108,6 @@ export class LiveCamera extends Component {
                         videoConstraints={videoConstraints}
                         onUserMedia={this.mediaHandler}
                     ></Webcam>
-                </div>
                 :
                 null
                 }
