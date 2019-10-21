@@ -15,20 +15,21 @@ export class LiveCamera extends Component {
     }
 
     mediaHandler = () => {
-        console.log(faceapi.nets)
+        // console.log(faceapi.nets)
         const hideo = document.getElementById('video');
         const displaySize = {
             width : hideo.width,
             height : hideo.height
         }
         const canvas = faceapi.createCanvas({width : hideo.width, height : hideo.height});
+        canvas.id = 'videoCanvas'
         document.getElementById('videoContainer').append(canvas)
         faceapi.matchDimensions(canvas,displaySize)
 
         
 
-        console.log(canvas)
-        console.log(displaySize)
+        // console.log(canvas)
+        // console.log(displaySize)
         setInterval(async () => {
             const detections = await faceapi.detectSingleFace(hideo, new TinyFaceDetectorOptions())
             .withFaceLandmarks()
@@ -91,26 +92,25 @@ export class LiveCamera extends Component {
 
     render() {
         const videoConstraints = {
-            width : 720,
-            height : 560,
+            width : window.screen.width * .7,
+            height : window.screen.width / 2,
             facingMode : 'user'
         };
 
-        console.log(this.state)
+        // console.log(this.state)
         return (
             <div id = 'videoContainer'>
                 {
                 this.state.loaded ?
-                <div>
                     <Webcam
                         id = 'video'
-                        width = {720}
-                        height = {560}
+                        width = {videoConstraints.width}
+                        height = {videoConstraints.height}
                         audio={false}
                         videoConstraints={videoConstraints}
                         onUserMedia={this.mediaHandler}
                     ></Webcam>
-                </div>
+
                 :
                 null
                 }
